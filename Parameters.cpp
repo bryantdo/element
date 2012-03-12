@@ -17,6 +17,6 @@ Parameters::~Parameters() {
 bool Parameters::verifyParameters() {
     bool l_bParametersGood = true;
     if(*m_sInputWordsFileName == "" || *m_sInputSequencesFileName == "") { l_bParametersGood = false; }
-    else if(*m_sOutputFileName == "") { *m_sOutputFileName = *m_sInputSequencesFileName + ".out"; }
+    else if(*m_sOutputFileName == "") { *m_sOutputFileName = *m_sInputSequencesFileName + ".bground"; }
     return l_bParametersGood;    
 }

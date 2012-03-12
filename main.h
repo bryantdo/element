@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Count.h"
 #include "Element.h"
+#include "Filter.h"
 
 static bool outputUsage(char**) ;
 

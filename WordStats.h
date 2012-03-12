@@ -1,6 +1,7 @@
 #ifndef WORDSTATS_H
 #define	WORDSTATS_H
 
+#include <vector>
 #include <string>
 
 class WordStats {
@@ -43,6 +44,7 @@ public:
     WordStatsObserved(std::string, int, double, double, double, int, double);
     WordStatsObserved(WordStats*, double);
     ~WordStatsObserved();
+    static bool sortByPValue(WordStatsObserved*, WordStatsObserved*);
     void setPValue(double p_dPValue) ;
     double getPValue() { return *m_dPValue; }
 private:

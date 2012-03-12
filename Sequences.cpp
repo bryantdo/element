@@ -31,7 +31,7 @@ std::vector<std::string>* Sequences::loadSequences(std::string* p_sInputSequence
     unsigned l_uSeqCount = length(l_dMultiSeqFile);
     CharString l_csID;
     String<Dna5Q> l_sSeq;
-    for(int i = 0; i < l_uSeqCount; i++) {
+    for(unsigned int i = 0; i < l_uSeqCount; i++) {
         assignSeq(l_sSeq, l_dMultiSeqFile[i], l_dFormat);
         std::string l_sSequence; assign(l_sSequence, l_sSeq);
         std::transform(l_sSequence.begin(), l_sSequence.end(), l_sSequence.begin(), ::toupper);

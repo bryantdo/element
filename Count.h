@@ -13,10 +13,10 @@
 
 class Count {
 public:
-    Count(int, char**) ;
-    virtual ~Count() ;
+    Count(int, char**);
+    virtual ~Count();
 private:
-    void outputUsage() ;
+    void outputUsage();
     bool run();
     CountParameters*    m_dCountParams;
     Words*              m_dWords;

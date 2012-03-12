@@ -1,9 +1,9 @@
 #include "Element.h"
 
 Element::Element(int argc, char** argv) {
+    m_dElementParameters = new ElementParameters();
     if(argc < 4) { Element::outputUsage(); return; }
     else {
-        m_dElementParameters        = new ElementParameters();
         m_dWords                    = NULL;
         m_dSequences                = NULL;
         m_vSequences                = new std::vector<Sequences* >();
@@ -17,6 +17,7 @@ Element::Element(int argc, char** argv) {
                     case 't': m_dElementParameters->setNumThreads(atoi(argv[++i])); break;
                     case 's': m_dElementParameters->setInputSequencesFileName(argv[++i]); break;
                     case 'w': m_dElementParameters->setInputWordsFileName(argv[++i]); break;
+                    case 'o': m_dElementParameters->setOutputFileName(argv[++i]); break;
                     default: std::cout << "Error in " << argv[i] << " " << argv[++i] << std::endl;
                 }
             } else {
@@ -41,12 +42,12 @@ bool Element::run() {
     if(m_dElementParameters->verifyParameters()) {
         m_dWords = new Words(m_dElementParameters);
         std::vector<std::string>* l_dSequencesFileNames = m_dElementParameters->getSequencesFileNames();
-        for(int i = 0; i < l_dSequencesFileNames->size(); i++) {
+        for(unsigned int i = 0; i < l_dSequencesFileNames->size(); i++) {
             Sequences* l_dTempSequences = new Sequences(&(l_dSequencesFileNames->at(i)));
             m_vSequences->push_back(l_dTempSequences);
         }        
         std::vector<std::string>* l_dBackgroundStatsFileNames = m_dElementParameters->getBackgroundStatsFileNames();
-        for(int i = 0; i < l_dBackgroundStatsFileNames->size(); i++) {
+        for(unsigned int i = 0; i < l_dBackgroundStatsFileNames->size(); i++) {
             Counter* l_dTempCounter = new Counter(&(l_dBackgroundStatsFileNames->at(i)));            
             m_vBGroundCounters->push_back(l_dTempCounter);
         }
@@ -56,9 +57,9 @@ bool Element::run() {
         
         std::vector<std::string>* l_vResults = l_dElementer->getStringResults();
         if(l_vResults->size() > 0) {
-            std::ofstream l_osOutputFile; l_osOutputFile.open(
-                    m_dElementParameters->getOutputFileName().c_str(), std::ios::app | std::ios::out);
-            for(int i = 0; i < l_vResults->size(); i++) { l_osOutputFile << l_vResults->at(i) << std::endl; }
+            std::ofstream l_osOutputFile;
+            l_osOutputFile.open(m_dElementParameters->getOutputFileName().c_str(), std::ios::app | std::ios::out);
+            for(unsigned int i = 0; i < l_vResults->size(); i++) { l_osOutputFile << l_vResults->at(i) << std::endl; }
             l_osOutputFile.close();
         }
         delete l_dElementer;
@@ -71,11 +72,13 @@ bool Element::run() {
 
 void Element::outputUsage() {
     std::cout << std::endl;
-    std::cout << "Usage: ewf element [-t integer] [-w words-file] [sequences-file bground-file ...]" << std::endl;
-    std::cout << std::endl;
-    std::cout << "Options/Arguments: " << std::endl;
+    std::cout << "Usage: element count [-t threads] [-w words-file] [-o output-file] [sequences-file bground-file ...]" 
+            << std::endl;
+    std::cout << "Options/Arguments:" << std::endl;
     std::cout << "   -t <integer>        Number of threads to use. Optional, defaults to 1." << std::endl;
     std::cout << "   -w <file path>      Input words file, one word per line. (REQD)" << std::endl;
+    std::cout << "   -o <file path>      Output file. Optional, defaults to first sequences file name + \".element\"" 
+            << std::endl;
     std::cout << "   sequences-file      Input promoter sequences file, FASTA format." << std::endl;
     std::cout << "     bground-file ...  Background statistics files as created by count." << std::endl;
     std::cout << "                       At least one pair of sequence-file/bground-file REQD." << std::endl;

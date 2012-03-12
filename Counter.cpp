@@ -74,7 +74,7 @@ bool Counter::loadCountsFromFile(std::string* p_sInputFileName) {
 
 bool Counter::countWordsHorspool() {
     boost::unordered_map<std::string, std::vector<int> > l_dCompiledResults;
-    for(int i = 0; i < m_vWords->size(); i++) {
+    for(unsigned int i = 0; i < m_vWords->size(); i++) {
         std::vector<int> l_dTempVector;
         l_dCompiledResults.insert(std::make_pair(m_vWords->at(i), l_dTempVector));
     }    
@@ -85,8 +85,8 @@ bool Counter::countWordsHorspool() {
     #pragma omp parallel private(th_id)
     {
     #pragma omp for schedule(dynamic, CHUNKSIZE)
-    for(int i = 0; i < m_vSequences->size(); i++) {        
-        for(int j = 0; j < m_vWords->size(); j++) {
+    for(unsigned int i = 0; i < m_vSequences->size(); i++) {        
+        for(unsigned int j = 0; j < m_vWords->size(); j++) {
             seqan::Finder<std::string> l_dFinderForward(m_vSequences->at(i));
             int l_iFoundCount = 0;
             seqan::Pattern<std::string, seqan::Horspool> l_dForwardWord(m_vWords->at(j));            
@@ -119,7 +119,7 @@ bool Counter::countWordsHorspool() {
     #pragma omp parallel private(th_id)
     {
     #pragma omp for schedule(dynamic, CHUNKSIZE)    
-    for(int i = 0; i < m_vWords->size(); i++) {        
+    for(unsigned int i = 0; i < m_vWords->size(); i++) {        
         std::string l_sWord = m_vWords->at(i);        
         int l_iSum = 0, l_iNumHits = l_dCompiledResults.at(l_sWord).size();        
         double l_dMean = 0.0, l_dStddev = 0.0, l_dProb = 0.0;
@@ -148,12 +148,12 @@ bool Counter::countWordsHorspool() {
     }
     if(*m_bVerbose) { outputCompletionStatus("\rPercent data aggregated:", 100.00, true); }
     
-    for(int i = 0; i < m_vWords->size(); i++) {
+    for(unsigned int i = 0; i < m_vWords->size(); i++) {
         m_vResults->push_back(l_dWordStatsHash.at(m_vWords->at(i)));
         m_dResultsHash->insert(std::make_pair(m_vWords->at(i), l_dWordStatsHash.at(m_vWords->at(i))));
     }
     
-    for(int i = 0; i < m_vResults->size(); i++) {
+    for(unsigned int i = 0; i < m_vResults->size(); i++) {
         std::stringstream l_dStringStream;
         l_dStringStream << m_vResults->at(i)->getWord() << "\t";
         l_dStringStream << m_vResults->at(i)->getCount() << "\t";
@@ -172,7 +172,7 @@ bool Counter::compileWordCountResults(std::vector<boost::unordered_map<std::stri
     typedef boost::unordered_map<std::string, int > l_tStringIntMap;
     boost::unordered_map<std::string, std::vector<int> > l_dCompiledResults;
     std::string l_sWord = "";
-    for(int i = 0; i < p_dResultsList.size(); i++) {
+    for(unsigned int i = 0; i < p_dResultsList.size(); i++) {
         BOOST_FOREACH(l_tStringIntMap::value_type j, p_dResultsList.at(i)) {
             if(l_dCompiledResults.find(j.first) == l_dCompiledResults.end()) {
                 std::vector<int> l_dTempCounts;

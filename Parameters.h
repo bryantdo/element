@@ -56,4 +56,23 @@ private:
     std::vector<std::string>* m_vBackgroundStatsFileNames;
 };
 
+class FilterParameters : public Parameters {
+public:
+    enum FilterType { NONE, BENJAMINIHOCHBERG, BONFERRONIHOLM, BONFERRONI };
+    FilterParameters();
+    virtual ~FilterParameters();
+    bool verifyParameters();
+    void setInputCountFileName(std::string p_sInputCountFileName) { *m_sInputCountFileName = p_sInputCountFileName; }
+    std::string* getInputCountFileName() { return m_sInputCountFileName; }
+    void setFilterType(FilterType p_iFilterType) { *m_iFilterType = p_iFilterType; }
+    FilterType* getFilterType() { return m_iFilterType; }
+    void setAbsoluteCuttoff(double p_dAbsoluteCuttoff) { *m_dSignificanceCuttoff = p_dAbsoluteCuttoff; }
+    double* getSignificanceCuttoff() { return m_dSignificanceCuttoff; }
+private:
+    std::string*        m_sInputCountFileName;
+    FilterType*         m_iFilterType;
+    double*             m_dSignificanceCuttoff;
+};
+
+
 #endif	/* PARAMETERS_H */

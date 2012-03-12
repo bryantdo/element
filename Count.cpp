@@ -1,9 +1,9 @@
 #include "Count.h"
 
 Count::Count(int argc, char** argv) {
+    m_dCountParams = new CountParameters();
     if(argc < 3) { Count::outputUsage(); return; }    
     else {
-        m_dCountParams      = new CountParameters();
         m_dWords            = NULL;
         m_dSequences        = NULL;
         char* l_cParameter;
@@ -40,7 +40,7 @@ bool Count::run() {
         if(l_vResults->size() > 0) {
             std::ofstream l_osOutputFile; l_osOutputFile.open(
                     m_dCountParams->getOutputFileName().c_str(), std::ios::app | std::ios::out);
-            for(int i = 0; i < l_vResults->size(); i++) { l_osOutputFile << l_vResults->at(i) << std::endl; }
+            for(unsigned int i = 0; i < l_vResults->size(); i++) { l_osOutputFile << l_vResults->at(i) << std::endl; }
             l_osOutputFile.close();
         }
         delete l_dCounter;
@@ -55,10 +55,11 @@ bool Count::run() {
 
 void Count::outputUsage() {
     std::cout << std::endl;
-    std::cout << "Usage: ewf count <options>" << std::endl;
-    std::cout << "Options: -w <file path> Input words file, one word per line. (REQD)" << std::endl;
-    std::cout << "         -s <file path> Input sequences file, FASTA format. (REQD)" << std::endl;
-    std::cout << "         -o <file path> Output file name. Optional, defaults to sequences_file.out" << std::endl;
-    std::cout << "         -t <integer>   Number of threads to use. Optional, defaults to 1." << std::endl;
-    std::cout << std::endl;    
+    std::cout << "Usage: element count [-t threads] [-w words-file] [-o output-file] [-s sequences-file]" << std::endl;
+    std::cout << "Options/Arguments:" << std::endl;
+    std::cout << "      -t <integer>   Number of threads to use. Optional, defaults to 1." << std::endl;
+    std::cout << "      -w <file path> Input words file, one word per line. (REQD)" << std::endl;
+    std::cout << "      -o <file path> Output file name. Optional, defaults to \"sequences_file.bground\"" << std::endl;
+    std::cout << "      -s <file path> Input sequences file, FASTA format. (REQD)" << std::endl;
+    std::cout << std::endl;
 }

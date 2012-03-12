@@ -7,7 +7,7 @@ ElementParameters::ElementParameters() {
     m_iNumThreads               = new int(1);
     m_vSequencesFileNames       = new std::vector<std::string>();
     m_vBackgroundStatsFileNames = new std::vector<std::string>();
-};
+}
 
 ElementParameters::~ElementParameters() {
     delete m_sInputWordsFileName;
@@ -22,7 +22,7 @@ bool ElementParameters::verifyParameters() {
     bool l_bParametersGood = true;
     if(*m_sInputWordsFileName == "" || m_vSequencesFileNames->size() < 1 || m_vBackgroundStatsFileNames->size() < 1) { 
         l_bParametersGood = false; 
-    } else if(*m_sOutputFileName == "") { *m_sOutputFileName = *m_sInputSequencesFileName + ".out"; }
+    } else if(*m_sOutputFileName == "") { *m_sOutputFileName = m_vSequencesFileNames->at(0) + ".element"; }
     return l_bParametersGood;
 }
 
@@ -36,7 +36,7 @@ std::vector<std::string>* ElementParameters::getSequencesFileNames() { return m_
 
 void ElementParameters::setInputFileNames(std::vector<std::string> p_vInputFileNames) {
     if(p_vInputFileNames.size() %2 == 0) {
-        for(int i = 0; i < p_vInputFileNames.size(); i++) {
+        for(unsigned int i = 0; i < p_vInputFileNames.size(); i++) {
             m_vSequencesFileNames->push_back(p_vInputFileNames.at(i));
             m_vBackgroundStatsFileNames->push_back(p_vInputFileNames.at(++i));
         }

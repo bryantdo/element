@@ -5,8 +5,8 @@ all: element
 clean:
 	rm -f *.o *~ core* element
 
-element: Sequences.o Words.o Parameters.o ElementParameters.o WordStats.o WordStatsObserved.o Partitioner.o Partitions.o Element.o Elementer.o Count.o Counter.o main.o
-	$(CC) Sequences.o Words.o Parameters.o ElementParameters.o WordStats.o WordStatsObserved.o Partitioner.o Partitions.o Element.o Elementer.o Count.o Counter.o main.o -o element
+element: Sequences.o Words.o Parameters.o ElementParameters.o FilterParameters.o WordStats.o WordStatsObserved.o Partitioner.o Partitions.o Element.o Elementer.o Count.o Counter.o Filter.o Filterer.o main.o
+	$(CC) Sequences.o Words.o Parameters.o ElementParameters.o FilterParameters.o WordStats.o WordStatsObserved.o Partitioner.o Partitions.o Element.o Elementer.o Count.o Counter.o Filter.o Filterer.o main.o -o element
 
 Sequences.o: Sequences.cpp Sequences.h Parameters.h
 	$(CC) -c Sequences.cpp
@@ -19,6 +19,9 @@ Parameters.o: Parameters.cpp Parameters.h
 
 ElementParameters.o: ElementParameters.cpp Parameters.h
 	$(CC) -c ElementParameters.cpp
+
+FilterParameters.o: FilterParameters.cpp Parameters.h
+	$(CC) -c FilterParameters.cpp
 
 WordStats.o: WordStats.cpp WordStats.h
 	$(CC) -c WordStats.cpp
@@ -44,6 +47,12 @@ Count.o: Count.cpp Count.h Parameters.h Words.h Sequences.h Counter.h
 Counter.o: Counter.cpp Counter.h Words.h WordStats.h Sequences.h
 	$(CC) -c Counter.cpp
 
-main.o: main.cpp main.h Count.h Element.h
+Filterer.o: Filterer.cpp Filterer.h Parameters.h Elementer.h
+	$(CC) -c Filterer.cpp
+
+Filter.o: Filter.cpp Filter.h Parameters.h Filterer.h
+	$(CC) -c Filter.cpp
+
+main.o: main.cpp main.h Count.h Element.h Filter.h
 	$(CC) -c main.cpp
 

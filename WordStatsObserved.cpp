@@ -41,6 +41,10 @@ WordStatsObserved::~WordStatsObserved() {
     delete m_dPValue;
 }
 
+bool WordStatsObserved::sortByPValue(WordStatsObserved* i, WordStatsObserved* j) { 
+    return (i->getPValue() < j->getPValue());
+}
+
 void WordStatsObserved::setPValue(double p_dPValue) {
     m_dPValue = new double(p_dPValue);
 }

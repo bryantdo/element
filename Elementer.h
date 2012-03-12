@@ -3,7 +3,10 @@
 
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include <sstream>
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/math/distributions/binomial.hpp>
 #include "Words.h"
 #include "WordStats.h"
@@ -14,12 +17,15 @@
 class Elementer {
 public:
     Elementer(Words*, std::vector<Sequences* >*, std::vector<Counter* >*, int*);
+    Elementer(std::string*);
     virtual ~Elementer();
+    bool addWordStats(std::string, int, double, double, double, int, double);
     WordStatsObserved* getWordStatResult(std::string);
     std::vector<WordStatsObserved* >* getWordStatsResults();
     std::vector<std::string>* getStringResults();
 private:
     bool calculateProbabilities();
+    bool loadProbsFromFile(std::string*);
     bool*                                                       m_bVerbose;
     std::vector<std::string>*                                   m_vWords;
     boost::unordered_map<std::string, bool>*                    m_dWords;
