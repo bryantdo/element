@@ -1,1 +1,16 @@
+<<<<<<< HEAD
 *.o
+=======
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+>>>>>>> d4d761cef673df07317a42405dca611eb096090b
